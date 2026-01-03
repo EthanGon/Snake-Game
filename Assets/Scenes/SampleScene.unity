@@ -829,6 +829,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1393479527 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8015455648942983202, guid: e9629f4d36c91224ea25fba7092479a9, type: 3}
+  m_PrefabInstance: {fileID: 3466156454353033189}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1393479532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393479527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e6312613be5fe4583798bd0212bc3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Snake
+  dir: {x: 0, y: 0, z: 0}
+  timer: 0
+  interval: 1
+  lastPos: {x: 0, y: 0, z: 0}
+  body: {fileID: 496603224361325344, guid: 5343e4f642e56704a8989aa5ed0cc6ca, type: 3}
 --- !u!1 &1561312719
 GameObject:
   m_ObjectHideFlags: 0
@@ -1248,7 +1270,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8015455648942983202, guid: e9629f4d36c91224ea25fba7092479a9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1393479532}
   m_SourcePrefab: {fileID: 100100000, guid: e9629f4d36c91224ea25fba7092479a9, type: 3}
 --- !u!1001 &4452122113321096419
 PrefabInstance:

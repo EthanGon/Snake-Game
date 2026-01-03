@@ -11,6 +11,7 @@ public class Snake : MonoBehaviour
     public float interval;
     public Vector3 lastPos;
     public LinkedList<GameObject> list;
+    public GameObject body;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -66,7 +67,8 @@ public class Snake : MonoBehaviour
     {
         if (collision.CompareTag("food"))
         {
-            
+            GameObject newBody;
+
         }
     }
 
