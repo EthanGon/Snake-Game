@@ -1,17 +1,22 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
     public Vector3 dir;
-    private Rigidbody2D rb;
     public float timer;
     public float interval;
+    public Vector3 lastPos;
+    public LinkedList<GameObject> list;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        list = new LinkedList<GameObject>();
+        list.AddLast(this.gameObject);
         dir = Vector2.zero;
     }
 
@@ -46,6 +51,7 @@ public class Snake : MonoBehaviour
         } 
         else
         {
+            lastPos = transform.position;
             transform.position = new Vector3(transform.position.x + dir.x, transform.position.y + dir.y, 0.0f);
             timer = 0.0f;
         }
@@ -56,6 +62,14 @@ public class Snake : MonoBehaviour
         
     }
 
-   
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("food"))
+        {
+            
+        }
+    }
+
+
 
 }
