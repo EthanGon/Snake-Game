@@ -11,10 +11,12 @@ public class Snake : MonoBehaviour
     public Vector3 lastPos;
     public List<GameObject> bodyParts;
     public GameObject body;
+    public bool snakeIsDead;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        snakeIsDead = false;
         bodyParts = new List<GameObject>();
         dir = Vector2.zero;
     }
@@ -24,26 +26,21 @@ public class Snake : MonoBehaviour
     {
         SetSnakeDirection();
 
-        if (timer < interval && dir != Vector3.zero)
+        if (timer < interval && dir != Vector3.zero && !snakeIsDead)
         {
             timer = timer + Time.deltaTime;
         } 
         else
         {
-            lastPos = transform.position;
+            Vector3 nextPos = new Vector3(transform.position.x + dir.x, transform.position.y + dir.y, 0f);
+            if ((WillHitWall(nextPos)) && timer >= interval - .5f)
+            {
+                Debug.Log("Hit a wall");
+                snakeIsDead=true;
+                return;
+            }
 
-            //foreach (GameObject body in bodyParts)
-            //{
-                
-            //    try
-            //    {
-            //        body.GetComponent<Body>().MoveBody();
-            //    }
-            //    catch (NullReferenceException e)
-            //    {
-            //        Debug.Log("No body to move");
-            //    }
-            //}
+            lastPos = transform.position;
 
             for (int i = 0; i < bodyParts.Count; i++)
             {
@@ -59,9 +56,7 @@ public class Snake : MonoBehaviour
     {
         if (collision.CompareTag("food"))
         {
-            
-            
-
+       
             if (bodyParts.Count == 0)
             {
                 GameObject newTail = Instantiate(body, lastPos, Quaternion.identity);
@@ -83,25 +78,48 @@ public class Snake : MonoBehaviour
 
     public void SetSnakeDirection()
     {
-        if (Input.GetKeyDown(KeyCode.D))
+        
+        if (!snakeIsDead)
         {
-            dir = Vector2.right * .5f;
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                dir = Vector2.right * .5f;
+            }
+
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                dir = Vector2.left * .5f;
+            }
+
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                dir = Vector2.up * .5f;
+            }
+
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                dir = Vector2.down * .5f;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+    }
+
+    public bool WillHitWall(Vector3 nextPos)
+    {
+        // hits top or bottom walls
+        if (nextPos == Vector3.up * 4.5f || nextPos == Vector3.down * 4.5f)
         {
-            dir = Vector2.left * .5f;
+            return true;
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
+        // hits left or right walls
+        if (nextPos == Vector3.left * 4.5f || nextPos == Vector3.right * 4.5f)
         {
-            dir = Vector2.up * .5f;
+            return true;
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            dir = Vector2.down * .5f;
-        }
+        return false;
+
     }
 
 
