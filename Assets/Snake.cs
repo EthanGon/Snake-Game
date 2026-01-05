@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+
 
 public class Snake : MonoBehaviour
 {
@@ -10,14 +12,13 @@ public class Snake : MonoBehaviour
     public float timer;
     public float interval;
     public Vector3 lastPos;
-    public LinkedList<GameObject> list;
+    public List<GameObject> bodyParts;
     public GameObject body;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        list = new LinkedList<GameObject>();
-        list.AddLast(this.gameObject);
+        bodyParts = new List<GameObject>();
         dir = Vector2.zero;
     }
 
@@ -53,22 +54,48 @@ public class Snake : MonoBehaviour
         else
         {
             lastPos = transform.position;
+
+            foreach (GameObject body in bodyParts)
+            {
+                
+                try
+                {
+                    body.GetComponent<Body>().MoveBody();
+                }
+                catch (NullReferenceException e)
+                {
+                    Debug.Log("No body to move");
+                }
+            }
+
             transform.position = new Vector3(transform.position.x + dir.x, transform.position.y + dir.y, 0.0f);
             timer = 0.0f;
         }
-    }
-
-    private void FixedUpdate()
-    {
-        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("food"))
         {
-            GameObject newBody;
+            
+            
 
+            if (bodyParts.Count == 0)
+            {
+                GameObject newTail = Instantiate(body, lastPos, Quaternion.identity);
+                bodyParts.Add(newTail);
+                newTail.GetComponent<Body>().next = this.gameObject;
+            }
+            else
+            {
+                Vector3 spawnPos = bodyParts[bodyParts.Count - 1].GetComponent<Body>().lastPos;
+
+                GameObject newTail = Instantiate(body, spawnPos, Quaternion.identity);
+                bodyParts.Add(newTail);
+                newTail.GetComponent<Body>().next = bodyParts[bodyParts.Count - 2];
+            }
+
+            Destroy(collision.gameObject);
         }
     }
 

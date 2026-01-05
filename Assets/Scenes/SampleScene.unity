@@ -848,7 +848,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Snake
   dir: {x: 0, y: 0, z: 0}
   timer: 0
-  interval: 1
+  interval: 0.5
   lastPos: {x: 0, y: 0, z: 0}
   body: {fileID: 496603224361325344, guid: 5343e4f642e56704a8989aa5ed0cc6ca, type: 3}
 --- !u!1 &1561312719
