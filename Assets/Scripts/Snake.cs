@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -25,27 +22,7 @@ public class Snake : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            dir = Vector2.right * .5f;
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            dir = Vector2.left * .5f;
-        }
-
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            dir = Vector2.up * .5f;
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            dir = Vector2.down * .5f;
-        }
-
-        
+        SetSnakeDirection();
 
         if (timer < interval && dir != Vector3.zero)
         {
@@ -55,17 +32,22 @@ public class Snake : MonoBehaviour
         {
             lastPos = transform.position;
 
-            foreach (GameObject body in bodyParts)
-            {
+            //foreach (GameObject body in bodyParts)
+            //{
                 
-                try
-                {
-                    body.GetComponent<Body>().MoveBody();
-                }
-                catch (NullReferenceException e)
-                {
-                    Debug.Log("No body to move");
-                }
+            //    try
+            //    {
+            //        body.GetComponent<Body>().MoveBody();
+            //    }
+            //    catch (NullReferenceException e)
+            //    {
+            //        Debug.Log("No body to move");
+            //    }
+            //}
+
+            for (int i = 0; i < bodyParts.Count; i++)
+            {
+                bodyParts[i].GetComponent<Body>().MoveBody();
             }
 
             transform.position = new Vector3(transform.position.x + dir.x, transform.position.y + dir.y, 0.0f);
@@ -96,6 +78,29 @@ public class Snake : MonoBehaviour
             }
 
             Destroy(collision.gameObject);
+        }
+    }
+
+    public void SetSnakeDirection()
+    {
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            dir = Vector2.right * .5f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            dir = Vector2.left * .5f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            dir = Vector2.up * .5f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            dir = Vector2.down * .5f;
         }
     }
 

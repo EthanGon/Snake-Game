@@ -80,7 +80,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.8, y: 0.8}
   m_EdgeRadius: 0
 --- !u!50 &4122314893493347273
 Rigidbody2D:
@@ -121,6 +121,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcf2c319b01e8b44eaa235d5f22f7bbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  next: {fileID: 0}
+  lastPosOfNext: {x: 0, y: 0, z: 0}
+  lastPos: {x: 0, y: 0, z: 0}
 --- !u!1 &4344168072863092467
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,7 +135,7 @@ GameObject:
   - component: {fileID: 724639551491051138}
   - component: {fileID: 4667200452912765544}
   m_Layer: 0
-  m_Name: Square (1)
+  m_Name: BodyColor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -201,7 +204,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.20960975, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.15484326, g: 0.745, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -222,7 +225,7 @@ GameObject:
   - component: {fileID: 3971988010037539229}
   - component: {fileID: 223388890942697541}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Outline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
