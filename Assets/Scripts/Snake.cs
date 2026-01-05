@@ -107,13 +107,13 @@ public class Snake : MonoBehaviour
     public bool WillHitWall(Vector3 nextPos)
     {
         // hits top or bottom walls
-        if (nextPos == Vector3.up * 4.5f || nextPos == Vector3.down * 4.5f)
+        if (nextPos.y >= 4.5f || nextPos.y <= -4.5f)
         {
             return true;
         }
 
         // hits left or right walls
-        if (nextPos == Vector3.left * 4.5f || nextPos == Vector3.right * 4.5f)
+        if (nextPos.x >= 4.5f || nextPos.x <= -4.5f)
         {
             return true;
         }
