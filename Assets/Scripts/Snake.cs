@@ -72,6 +72,7 @@ public class Snake : MonoBehaviour
                 newTail.GetComponent<Body>().next = bodyParts[bodyParts.Count - 2];
             }
 
+            FoodSpawner.GetInstance().SpawnFood();
             Destroy(collision.gameObject);
         }
     }
