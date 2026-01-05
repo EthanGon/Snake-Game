@@ -7,11 +7,12 @@ public class Body : MonoBehaviour
 
     public void MoveBody()
     {
+        // before it moves save the last position, then move to the next body parts last position.
         this.lastPos = transform.position;
         
         if (next.CompareTag("head"))
         {
-            transform.position = next.gameObject.GetComponent<Snake>().lastPos;
+            transform.position = next.GetComponent<Snake>().lastPos;
         } 
         else
         {

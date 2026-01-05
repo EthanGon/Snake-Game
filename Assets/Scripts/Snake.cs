@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
-    public Vector3 dir;
-    public float timer;
-    public float interval;
+    private Vector3 dir;
+    private float timer;
+    [SerializeField] private float interval;
     public Vector3 lastPos;
     public List<GameObject> bodyParts;
     public GameObject body;
@@ -81,22 +81,22 @@ public class Snake : MonoBehaviour
         
         if (!snakeIsDead)
         {
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(KeyCode.D) && dir.x != -.5f)
             {
                 dir = Vector2.right * .5f;
             }
 
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.A) && dir.x != .5f)
             {
                 dir = Vector2.left * .5f;
             }
 
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W) && dir.y != -.5f)
             {
                 dir = Vector2.up * .5f;
             }
 
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.S) && dir.y != .5f)
             {
                 dir = Vector2.down * .5f;
             }
