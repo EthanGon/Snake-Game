@@ -33,35 +33,37 @@ public class FoodSpawner : MonoBehaviour
     // work in progess, issue: can randomly spawn on player body
     public void SpawnFood()
     {
-        bool safe = false;
-        Vector3 firstFoodSpawn = possibleSpawnPoints[Random.Range(0, possibleSpawnPoints.Count)];
-        List<GameObject> bodyParts = Snake.GetSnake().GetBodyParts();
-
-        while (!safe)
+        //Vector3 firstFoodSpawn = possibleSpawnPoints[Random.Range(0, possibleSpawnPoints.Count)];
+        Vector3 firstFoodSpawn = Vector3.zero;
+        
+        while (!IsSafe(firstFoodSpawn))
         {
-            for (int i = 0; i < bodyParts.Count; i++)
+            firstFoodSpawn = possibleSpawnPoints[Random.Range(0, possibleSpawnPoints.Count)];
+        }
+        
+        Instantiate(foodPrefab, firstFoodSpawn, Quaternion.identity);
+    }
+
+    public bool IsSafe(Vector3 pos)
+    {
+        List<GameObject> snakeBodies = Snake.GetSnake().GetBodyParts();
+
+        if (pos == Snake.GetSnake().transform.position)
+        {
+            Debug.Log(pos + " not safe, snake head located here. Randomizing position again.");
+            return false;
+        }
+
+        foreach (GameObject body in snakeBodies)
+        {
+            if (body.transform.position == pos)
             {
-                if (bodyParts[i].transform.position == firstFoodSpawn)
-                {
-                    firstFoodSpawn = possibleSpawnPoints[Random.Range(0, possibleSpawnPoints.Count)];
-                    Debug.Log(firstFoodSpawn + " was NOT safe to spawn food. CHECKING AGAIN.");
-                    return;
-                }
-                else
-                {
-                    Debug.Log(firstFoodSpawn + " was safe to spawn food.");
-                    safe = true;
-                    break;
-                }
+                Debug.Log(pos + " not safe, snake body located here. Randomizing position again.");
+                return false;
             }
         }
 
-        if (firstFoodSpawn == Vector3.zero)
-        {
-            firstFoodSpawn = Vector3.right * 3f;
-        }
-
-        Instantiate(foodPrefab, firstFoodSpawn, Quaternion.identity);
+        return true;
     }
 
 
