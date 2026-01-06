@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using NUnit.Framework;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -32,7 +33,29 @@ public class FoodSpawner : MonoBehaviour
     // work in progess, issue: can randomly spawn on player body
     public void SpawnFood()
     {
+        bool safe = false;
         Vector3 firstFoodSpawn = possibleSpawnPoints[Random.Range(0, possibleSpawnPoints.Count)];
+        List<GameObject> bodyParts = Snake.GetSnake().GetBodyParts();
+
+        while (!safe)
+        {
+            for (int i = 0; i < bodyParts.Count; i++)
+            {
+                if (bodyParts[i].transform.position == firstFoodSpawn)
+                {
+                    firstFoodSpawn = possibleSpawnPoints[Random.Range(0, possibleSpawnPoints.Count)];
+                    Debug.Log(firstFoodSpawn + " was NOT safe to spawn food. CHECKING AGAIN.");
+                    return;
+                }
+                else
+                {
+                    Debug.Log(firstFoodSpawn + " was safe to spawn food.");
+                    safe = true;
+                    break;
+                }
+            }
+        }
+
         if (firstFoodSpawn == Vector3.zero)
         {
             firstFoodSpawn = Vector3.right * 3f;
@@ -41,10 +64,7 @@ public class FoodSpawner : MonoBehaviour
         Instantiate(foodPrefab, firstFoodSpawn, Quaternion.identity);
     }
 
-    //private bool BodyAtPosition(Vector3 pos)
-    //{
-    //    return Physics2D.BoxCast(pos, spawnCheck.bounds.size, 0f, Vector2.zero, 0f, );
-    //}
+
 
     public static FoodSpawner GetInstance()
     {

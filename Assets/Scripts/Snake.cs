@@ -7,15 +7,18 @@ public class Snake : MonoBehaviour
 {
     private Vector3 dir;
     private float timer;
+    private static Snake SnakeObject;
     [SerializeField] private float interval;
     public Vector3 lastPos;
-    public List<GameObject> bodyParts;
+    private List<GameObject> bodyParts;
     public GameObject body;
     public bool snakeIsDead;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        SnakeObject = this;
+
         snakeIsDead = false;
         bodyParts = new List<GameObject>();
         dir = Vector2.zero;
@@ -122,6 +125,16 @@ public class Snake : MonoBehaviour
 
         return false;
 
+    }
+
+    public List<GameObject> GetBodyParts()
+    {
+        return bodyParts;
+    }
+
+    public static Snake GetSnake()
+    {
+        return SnakeObject;
     }
 
 
