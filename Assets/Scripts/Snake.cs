@@ -56,6 +56,7 @@ public class Snake : MonoBehaviour
     {
         if (collision.CompareTag("food"))
         {
+            GameManager.GetInstance().IncreaseFoodCount();
        
             if (bodyParts.Count == 0)
             {
