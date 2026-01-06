@@ -33,8 +33,8 @@ public class FoodSpawner : MonoBehaviour
     // work in progess, issue: can randomly spawn on player body
     public void SpawnFood()
     {
-        //Vector3 firstFoodSpawn = possibleSpawnPoints[Random.Range(0, possibleSpawnPoints.Count)];
-        Vector3 firstFoodSpawn = Vector3.zero;
+        Vector3 firstFoodSpawn = possibleSpawnPoints[Random.Range(0, possibleSpawnPoints.Count)];
+  
         
         while (!IsSafe(firstFoodSpawn))
         {

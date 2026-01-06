@@ -60,24 +60,29 @@ public class Snake : MonoBehaviour
         if (collision.CompareTag("food"))
         {
             GameManager.GetInstance().IncreaseFoodCount();
-       
-            if (bodyParts.Count == 0)
-            {
-                GameObject newTail = Instantiate(body, lastPos, Quaternion.identity);
-                bodyParts.Add(newTail);
-                newTail.GetComponent<Body>().next = this.gameObject;
-            }
-            else
-            {
-                Vector3 spawnPos = bodyParts[bodyParts.Count - 1].GetComponent<Body>().lastPos;
-
-                GameObject newTail = Instantiate(body, spawnPos, Quaternion.identity);
-                bodyParts.Add(newTail);
-                newTail.GetComponent<Body>().next = bodyParts[bodyParts.Count - 2];
-            }
+            AddBody();
+            
 
             FoodSpawner.GetInstance().SpawnFood();
             Destroy(collision.gameObject);
+        }
+    }
+
+    public void AddBody()
+    {
+        if (bodyParts.Count == 0)
+        {
+            GameObject newTail = Instantiate(body, lastPos, Quaternion.identity);
+            bodyParts.Add(newTail);
+            newTail.GetComponent<Body>().next = this.gameObject;
+        }
+        else
+        {
+            Vector3 spawnPos = bodyParts[bodyParts.Count - 1].GetComponent<Body>().lastPos;
+
+            GameObject newTail = Instantiate(body, spawnPos, Quaternion.identity);
+            bodyParts.Add(newTail);
+            newTail.GetComponent<Body>().next = bodyParts[bodyParts.Count - 2];
         }
     }
 
