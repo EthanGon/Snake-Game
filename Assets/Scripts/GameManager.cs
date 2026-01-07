@@ -34,9 +34,20 @@ public class GameManager : MonoBehaviour
         FoodSpawner.GetInstance().SpawnFood();
     }
 
+    public void ShowMenu()
+    {
+        gameActive = false;
+        menu.SetActive(true);
+    }
+
     public bool IsGameActive()
     {
         return gameActive;
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
 }
