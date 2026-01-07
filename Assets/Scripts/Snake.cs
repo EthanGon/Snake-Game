@@ -13,6 +13,7 @@ public class Snake : MonoBehaviour
     private List<GameObject> bodyParts;
     public GameObject body;
     public bool snakeIsDead;
+    public List<Vector3> dirInputs;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -94,18 +95,22 @@ public class Snake : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D) && dir.x != -.5f)
             {
                 dir = Vector2.right * .5f;
+                dirInputs.Add(dir);
             }
             else if (Input.GetKeyDown(KeyCode.A) && dir.x != .5f)
             {
                 dir = Vector2.left * .5f;
+                dirInputs.Add(dir);
             }
             else if (Input.GetKeyDown(KeyCode.W) && dir.y != -.5f)
             {
                 dir = Vector2.up * .5f;
+                dirInputs.Add(dir);
             } 
             else if (Input.GetKeyDown(KeyCode.S) && dir.y != .5f)
             {
                 dir = Vector2.down * .5f;
+                dirInputs.Add(dir);
             }
         }
 
