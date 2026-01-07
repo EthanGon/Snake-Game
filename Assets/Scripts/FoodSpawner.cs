@@ -26,7 +26,7 @@ public class FoodSpawner : MonoBehaviour
             }
         }
 
-        SpawnFood();
+        
 
     }
 

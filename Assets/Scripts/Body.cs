@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Body : MonoBehaviour
 {
-    public GameObject next;
-    public Vector3 lastPos;
+    private GameObject next;
+    private Vector3 lastPos;
 
     public void MoveBody()
     {
@@ -18,6 +18,21 @@ public class Body : MonoBehaviour
         {
             transform.position = next.GetComponent<Body>().lastPos;
         }
+    }
+
+    public Vector3 GetLastPos()
+    {
+        return this.lastPos;
+    }
+
+    public void SetNext(GameObject next)
+    {
+        this.next = next;
+    }
+
+    public GameObject GetNext()
+    {
+        return this.next;
     }
 
 }

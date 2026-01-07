@@ -3,18 +3,16 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject menu;
+    private bool gameActive;
     private static GameManager instance;
     [SerializeField] private int foodCount;
     [SerializeField] private TextMeshProUGUI foodText;
 
     private void Start()
     {
+        gameActive = false;
         instance = this;
-    }
-
-    private void Update()
-    {
-        
     }
 
     public void IncreaseFoodCount()
@@ -27,6 +25,18 @@ public class GameManager : MonoBehaviour
     public static GameManager GetInstance()
     {
         return instance;
+    }
+
+    public void StartGame()
+    {
+        gameActive=true;
+        menu.SetActive(false);
+        FoodSpawner.GetInstance().SpawnFood();
+    }
+
+    public bool IsGameActive()
+    {
+        return gameActive;
     }
 
 }

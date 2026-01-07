@@ -1,21 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
 public class Snake : MonoBehaviour
 {
-    public Vector3 dir;
-    private float timer;
-    private static Snake SnakeObject;
     [SerializeField] private float interval;
+    public Vector3 dir;
     public Vector3 lastPos;
+    public GameObject bodyPrefab;
+    public Color eatingColor;
+    private static Snake SnakeObject;
     private List<GameObject> bodyParts;
-    public GameObject body;
-    public bool snakeIsDead;
-    public List<Vector3> dirInputs;
-    public bool dirSet = false;
+    private float timer;
+    private bool snakeIsDead;
+    private bool dirSet = false;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,6 +32,10 @@ public class Snake : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GameManager.GetInstance().IsGameActive())
+        {
+            return;
+        } 
         
 
         if (!dirSet)
@@ -47,7 +53,6 @@ public class Snake : MonoBehaviour
             Vector3 nextPos = new Vector3(transform.position.x + dir.x, transform.position.y + dir.y, 0f);
             if (((WillHitWall(nextPos)) || WillHitBody(nextPos)) && timer >= interval - .5f)
             {
-                Debug.Log(dir);
                 snakeIsDead=true;
                 return;
             }
@@ -82,17 +87,29 @@ public class Snake : MonoBehaviour
     {
         if (bodyParts.Count == 0)
         {
-            GameObject newTail = Instantiate(body, lastPos, Quaternion.identity);
+            GameObject newTail = Instantiate(bodyPrefab, lastPos, Quaternion.identity);
             bodyParts.Add(newTail);
-            newTail.GetComponent<Body>().next = this.gameObject;
+            newTail.GetComponent<Body>().SetNext(this.gameObject);
         }
         else
         {
-            Vector3 spawnPos = bodyParts[bodyParts.Count - 1].GetComponent<Body>().lastPos;
+            Vector3 spawnPos = bodyParts[bodyParts.Count - 1].GetComponent<Body>().GetLastPos();
 
-            GameObject newTail = Instantiate(body, spawnPos, Quaternion.identity);
+            GameObject newTail = Instantiate(bodyPrefab, spawnPos, Quaternion.identity);
+            StartCoroutine(EatingEffect());
             bodyParts.Add(newTail);
-            newTail.GetComponent<Body>().next = bodyParts[bodyParts.Count - 2];
+            newTail.GetComponent<Body>().SetNext(bodyParts[bodyParts.Count - 2]);
+        }
+    }
+
+    public IEnumerator EatingEffect()
+    {
+        for (int i = 0; i < bodyParts.Count; i++)
+        {
+            Color ogColor = bodyParts[i].GetComponentInChildren<SpriteRenderer>().color;
+            bodyParts[i].GetComponentInChildren<SpriteRenderer>().color = eatingColor;
+            yield return new WaitForSeconds(.1f);
+            bodyParts[i].GetComponentInChildren<SpriteRenderer>().color = ogColor;
         }
     }
 
@@ -104,30 +121,25 @@ public class Snake : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D) && dir.x != -.5f)
             {
                 dir = Vector2.right * .5f;
-                dirInputs.Add(dir);
                 dirSet = true;
 
             }
             else if (Input.GetKeyDown(KeyCode.A) && dir.x != .5f)
             {
                 dir = Vector2.left * .5f;
-                dirInputs.Add(dir);
                 dirSet = true;
             }
             else if (Input.GetKeyDown(KeyCode.W) && dir.y != -.5f)
             {
                 dir = Vector2.up * .5f;
-                dirInputs.Add(dir);
                 dirSet = true;
             } 
             else if (Input.GetKeyDown(KeyCode.S) && dir.y != .5f)
             {
                 dir = Vector2.down * .5f;
-                dirInputs.Add(dir);
                 dirSet = true;
             }
 
-           
         }
         
     }
