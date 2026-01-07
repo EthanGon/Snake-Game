@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
-    private Vector3 dir;
+    public Vector3 dir;
     private float timer;
     private static Snake SnakeObject;
     [SerializeField] private float interval;
@@ -36,9 +36,9 @@ public class Snake : MonoBehaviour
         else
         {
             Vector3 nextPos = new Vector3(transform.position.x + dir.x, transform.position.y + dir.y, 0f);
-            if ((WillHitWall(nextPos)) && timer >= interval - .5f)
+            if (((WillHitWall(nextPos)) || WillHitBody(nextPos)) && timer >= interval - .5f)
             {
-                Debug.Log("Hit a wall");
+                Debug.Log(dir);
                 snakeIsDead=true;
                 return;
             }
@@ -95,18 +95,15 @@ public class Snake : MonoBehaviour
             {
                 dir = Vector2.right * .5f;
             }
-
-            if (Input.GetKeyDown(KeyCode.A) && dir.x != .5f)
+            else if (Input.GetKeyDown(KeyCode.A) && dir.x != .5f)
             {
                 dir = Vector2.left * .5f;
             }
-
-            if (Input.GetKeyDown(KeyCode.W) && dir.y != -.5f)
+            else if (Input.GetKeyDown(KeyCode.W) && dir.y != -.5f)
             {
                 dir = Vector2.up * .5f;
-            }
-
-            if (Input.GetKeyDown(KeyCode.S) && dir.y != .5f)
+            } 
+            else if (Input.GetKeyDown(KeyCode.S) && dir.y != .5f)
             {
                 dir = Vector2.down * .5f;
             }
@@ -130,6 +127,18 @@ public class Snake : MonoBehaviour
 
         return false;
 
+    }
+
+    public bool WillHitBody(Vector3 nextPos)
+    {
+        for (int i = 0; i < bodyParts.Count; i++)
+        {
+            if (nextPos == bodyParts[i].transform.position)
+            {
+                return true;
+            }
+        }
+        return false; 
     }
 
     public List<GameObject> GetBodyParts()

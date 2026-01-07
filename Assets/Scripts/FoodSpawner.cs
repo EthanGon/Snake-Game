@@ -35,7 +35,6 @@ public class FoodSpawner : MonoBehaviour
     {
         Vector3 firstFoodSpawn = possibleSpawnPoints[Random.Range(0, possibleSpawnPoints.Count)];
   
-        
         while (!IsSafe(firstFoodSpawn))
         {
             firstFoodSpawn = possibleSpawnPoints[Random.Range(0, possibleSpawnPoints.Count)];
@@ -48,22 +47,22 @@ public class FoodSpawner : MonoBehaviour
     {
         List<GameObject> snakeBodies = Snake.GetSnake().GetBodyParts();
 
-        if (pos != Snake.GetSnake().transform.position)
+        if (pos == Snake.GetSnake().transform.position)
         {
             Debug.Log(pos + " not safe, snake head located here. Randomizing position again.");
-            return true;
+            return false;
         }
 
         foreach (GameObject body in snakeBodies)
         {
-            if (body.transform.position != pos)
+            if (body.transform.position == pos)
             {
                 Debug.Log(pos + " not safe, snake body located here. Randomizing position again.");
-                return true;
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 
 
