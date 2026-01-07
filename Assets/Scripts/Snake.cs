@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class Snake : MonoBehaviour
     public GameObject body;
     public bool snakeIsDead;
     public List<Vector3> dirInputs;
+    public bool dirSet = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,7 +30,13 @@ public class Snake : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SetSnakeDirection();
+        
+
+        if (!dirSet)
+        {
+            SetSnakeDirection();
+        }
+        
 
         if (timer < interval && dir != Vector3.zero && !snakeIsDead)
         {
@@ -52,6 +60,7 @@ public class Snake : MonoBehaviour
             }
 
             transform.position = new Vector3(transform.position.x + dir.x, transform.position.y + dir.y, 0.0f);
+            dirSet = false;
             timer = 0.0f;
         }
     }
@@ -96,24 +105,31 @@ public class Snake : MonoBehaviour
             {
                 dir = Vector2.right * .5f;
                 dirInputs.Add(dir);
+                dirSet = true;
+
             }
             else if (Input.GetKeyDown(KeyCode.A) && dir.x != .5f)
             {
                 dir = Vector2.left * .5f;
                 dirInputs.Add(dir);
+                dirSet = true;
             }
             else if (Input.GetKeyDown(KeyCode.W) && dir.y != -.5f)
             {
                 dir = Vector2.up * .5f;
                 dirInputs.Add(dir);
+                dirSet = true;
             } 
             else if (Input.GetKeyDown(KeyCode.S) && dir.y != .5f)
             {
                 dir = Vector2.down * .5f;
                 dirInputs.Add(dir);
+                dirSet = true;
             }
-        }
 
+           
+        }
+        
     }
 
     public bool WillHitWall(Vector3 nextPos)
