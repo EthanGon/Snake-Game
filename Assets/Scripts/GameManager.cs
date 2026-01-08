@@ -3,14 +3,18 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject moveInstruction;
     public GameObject menu;
+    public int highScore;
     private bool gameActive;
     private static GameManager instance;
-    [SerializeField] private int foodCount;
+    private int foodCount;
     [SerializeField] private TextMeshProUGUI foodText;
+    [SerializeField] private TextMeshProUGUI highScoreText;
 
     private void Start()
     {
+        highScoreText.text = "HIGH SCORE\n" + PlayerPrefs.GetInt("highscore").ToString();
         gameActive = false;
         instance = this;
     }
@@ -22,6 +26,11 @@ public class GameManager : MonoBehaviour
         Debug.Log("Food Added");
     }
 
+    public int GetFoodCount()
+    {
+        return foodCount;
+    }
+
     public static GameManager GetInstance()
     {
         return instance;
@@ -29,6 +38,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        moveInstruction.SetActive(true);
         gameActive=true;
         menu.SetActive(false);
         FoodSpawner.GetInstance().SpawnFood();

@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class Snake : MonoBehaviour
 {
-    [SerializeField] private float interval;
+    
     public Vector3 dir;
     public Vector3 lastPos;
     public GameObject bodyPrefab;
@@ -17,10 +18,11 @@ public class Snake : MonoBehaviour
     private float timer;
     private bool snakeIsDead;
     private bool dirSet = false;
+    [SerializeField] private float interval;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         SnakeObject = this;
 
@@ -30,10 +32,11 @@ public class Snake : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (!GameManager.GetInstance().IsGameActive())
         {
+            Debug.Log("Game is not active");
             return;
         } 
         
@@ -41,8 +44,12 @@ public class Snake : MonoBehaviour
         if (!dirSet)
         {
             SetSnakeDirection();
+            if (dir != Vector3.zero)
+            {
+                GameManager.GetInstance().moveInstruction.SetActive(false);
+            }
         }
-        
+
 
         if (timer < interval && dir != Vector3.zero && !snakeIsDead)
         {
@@ -54,6 +61,8 @@ public class Snake : MonoBehaviour
             if (((WillHitWall(nextPos)) || WillHitBody(nextPos)) && timer >= interval - .5f)
             {
                 snakeIsDead=true;
+                PlayerPrefs.SetInt("highscore", GameManager.GetInstance().GetFoodCount());
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 return;
             }
 
@@ -77,7 +86,6 @@ public class Snake : MonoBehaviour
             GameManager.GetInstance().IncreaseFoodCount();
             AddBody();
             
-
             FoodSpawner.GetInstance().SpawnFood();
             Destroy(collision.gameObject);
         }
@@ -115,14 +123,12 @@ public class Snake : MonoBehaviour
 
     public void SetSnakeDirection()
     {
-        
         if (!snakeIsDead)
         {
             if (Input.GetKeyDown(KeyCode.D) && dir.x != -.5f)
             {
                 dir = Vector2.right * .5f;
                 dirSet = true;
-
             }
             else if (Input.GetKeyDown(KeyCode.A) && dir.x != .5f)
             {
