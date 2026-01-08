@@ -1944,7 +1944,7 @@ MonoBehaviour:
   lastPos: {x: 0, y: 0, z: 0}
   bodyPrefab: {fileID: 496603224361325344, guid: 5343e4f642e56704a8989aa5ed0cc6ca, type: 3}
   eatingColor: {r: 0.15294118, g: 0.47058824, b: 0, a: 1}
-  interval: 0.25
+  interval: 0.2
 --- !u!1 &1462226160
 GameObject:
   m_ObjectHideFlags: 0
