@@ -61,7 +61,13 @@ public class Snake : MonoBehaviour
             if (((WillHitWall(nextPos)) || WillHitBody(nextPos)) && timer >= interval - .5f)
             {
                 snakeIsDead=true;
-                PlayerPrefs.SetInt("highscore", GameManager.GetInstance().GetFoodCount());
+
+                if (GameManager.GetInstance().GetFoodCount() > PlayerPrefs.GetInt("highscore"))
+                {
+                    PlayerPrefs.SetInt("highscore", GameManager.GetInstance().GetFoodCount());
+                }
+
+                
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 return;
             }
